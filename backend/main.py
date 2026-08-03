@@ -62,7 +62,7 @@ def create_preference(data: PreferenceRequest):
         
         return {"id": preference["id"], "init_point": preference["init_point"]}
     
-    .strip()
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
