@@ -466,3 +466,95 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
+/* ============================================= */
+/* --- ADAPTACIÓN A CELULAR (RESPONSIVE MOBILE) --- */
+/* ============================================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .navbar-logo h2 {
+    font-size: 1.2rem;
+  }
+
+  .navbar-search {
+    order: 3;
+    width: 100%;
+  }
+
+  .navbar-search input {
+    width: 100%;
+  }
+
+  .navbar-actions {
+    gap: 0.8rem;
+  }
+
+  .main-content {
+    padding: 0 1rem;
+    margin: 1.2rem auto;
+  }
+
+  .filters-container {
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.35rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .product-image-container {
+    height: 130px;
+  }
+
+  .product-title {
+    font-size: 0.95rem;
+  }
+
+  .product-description {
+    font-size: 0.78rem;
+  }
+
+  .product-price {
+    font-size: 1.05rem;
+  }
+
+  .product-actions {
+    flex-direction: column;
+  }
+
+  .drawer-content {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .user-dropdown {
+    width: 180px;
+  }
+}
+
+@media (max-width: 400px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.7rem;
+  }
+
+  .product-info {
+    padding: 0.8rem;
+  }
+}
