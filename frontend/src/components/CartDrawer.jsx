@@ -19,10 +19,10 @@ export const CartDrawer = ({
     if (cart.length === 0) return;
     
     setLoading(true);
-    // 1. Preparamos el formato simplificado que nos pide el backend
+    // 1. Preparamos el formato que pide el backend
     const itemsParaMP = cart.map((item) => ({
       title: item.title,
-      price: item.price,
+      unit_price: item.price,
       quantity: item.cantidad
     }));
 
