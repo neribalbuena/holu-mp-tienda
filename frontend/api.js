@@ -7,7 +7,7 @@ export const crearPreferenciaMercadoPago = async (cartItems) => {
       },
       body: JSON.stringify({ items: cartItems }),
     });
-
+    
     const data = await response.json();
     
     if (data.init_point) {
@@ -19,4 +19,3 @@ export const crearPreferenciaMercadoPago = async (cartItems) => {
     console.error("Error al conectar con el backend:", error);
   }
 };
-//podrido estoy
