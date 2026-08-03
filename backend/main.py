@@ -2,74 +2,70 @@ import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List
 import mercadopago
-from dotenv import load_dotenv
 
-# Cargar variables de entorno del archivo .env
-load_dotenv()
+app = FastAPI()
 
-# Inicializar FastAPI
-app = FastAPI(title="Mi Ecommerce API")
-
-# Permitir solicitudes CORS desde nuestro Frontend (React en localhost:5173)
+# Configuramos CORS para que tu frontend (en Vercel u otro lugar) pueda hablar con este backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # En producción podés poner la URL específica de tu frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Inicializar el SDK de Mercado Pago con el Access Token
-sdk = mercadopago.SDK(os.getenv("MERCADOPAGO_ACCESS_TOKEN"))
+# Leemos la variable de entorno de forma segura
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 
-# Estructura de datos que esperamos recibir del Frontend
-class ItemCart(BaseModel):
+# Verificamos explícitamente para que no falle a ciegas
+if not ACCESS_TOKEN:
+    raise ValueError("Falta configurar la variable de entorno ACCESS_TOKEN")
+
+# Inicializamos el SDK de Mercado Pago
+sdk = mercadopago.SDK(ACCESS_TOKEN)
+
+# Estructura de los datos que llegan desde el carrito de tu frontend
+class Item(BaseModel):
     title: str
-    price: float
     quantity: int
+    unit_price: float
 
-class PreferencePayload(BaseModel):
-    items: List[ItemCart]
+class PreferenceRequest(BaseModel):
+    items: list[Item]
 
-@app.get("/")
-def home():
-    return {"message": "API de Mercado Pago funcionando correctamente 🚀"}
-
-@app.post("/api/create_preference")
-def create_preference(payload: PreferencePayload):
+@app.post("/create_preference")
+def create_preference(data: PreferenceRequest):
     try:
-        items_mp = []
-        for item in payload.items:
-            items_mp.append({
-                "title": str(item.title),
-                "quantity": int(item.quantity) if item.quantity > 0 else 1,
-                "currency_id": "ARS",
-                "unit_price": float(item.price)
-            })
+        # Transformamos los datos al formato que exige Mercado Pago
+        items_list = [
+            {
+                "title": item.title,
+                "quantity": item.quantity,
+                "unit_price": item.unit_price
+            }
+            for item in data.items
+        ]
 
         preference_data = {
-            "items": items_mp,
+            "items": items_list,
             "back_urls": {
-                "success": "http://localhost:5173/?status=success",
-                "failure": "http://localhost:5173/?status=failure",
-                "pending": "http://localhost:5173/?status=pending"
-            }
+                "success": "https://tu-tienda.vercel.app/success",
+                "failure": "https://tu-tienda.vercel.app/failure",
+                "pending": "https://tu-tienda.vercel.app/pending"
+            },
+            "auto_return": "approved",
         }
 
-        # Crear preferencia de pago en los servidores de Mercado Pago
-        preference_response = sdk.preference().create(preference_data)
+        result = sdk.preference().create(preference_data)
+        preference = result["response"]
         
-        print("Respuesta MP:", preference_response)
-
-        preference = preference_response.get("response", {})
-        
-        # Obtener el link de pago (init_point o sandbox_init_point)
-        init_link = preference.get("init_point") or preference.get("sandbox_init_point")
-        
-        return {"init_point": init_link}
-
+        return {"id": preference["id"], "init_point": preference["init_point"]}
+    
+    .strip()
     except Exception as e:
-        print("Error en backend:", e)
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/")
+def read_root():
+    return {"message": "Backend de la tienda funcionando correctamente con Mercado Pago"}
