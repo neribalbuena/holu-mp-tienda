@@ -50,18 +50,17 @@ def create_preference(data: PreferenceRequest):
         preference_data = {
             "items": items_list,
             "back_urls": {
-                "success": "https://tu-tienda.vercel.app/success",
-                "failure": "https://tu-tienda.vercel.app/failure",
-                "pending": "https://tu-tienda.vercel.app/pending"
+                "success": "https://holu-mp-tienda.vercel.app/success",
+                "failure": "https://holu-mp-tienda.vercel.app/failure",
+                "pending": "https://holu-mp-tienda.vercel.app/pending"
             },
             "auto_return": "approved",
         }
 
         result = sdk.preference().create(preference_data)
         preference = result["response"]
-        
+
         return {"id": preference["id"], "init_point": preference["init_point"]}
-    
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
