@@ -19,3 +19,4 @@ export const crearPreferenciaMercadoPago = async (cartItems) => {
     console.error("Error al conectar con el backend:", error);
   }
 };
+//podrido estoy
