@@ -101,7 +101,7 @@ export function App() {
           </p>
         )}
 
-        {/* Botones de Paginación */}
+        {/* Renderiza los controlesde Paginación */}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
