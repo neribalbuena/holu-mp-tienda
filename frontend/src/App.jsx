@@ -76,7 +76,7 @@ export function App() {
 
       {/* Contenido Principal */}
       <main className="main-content">
-        {/* Filtros por Categoría */}
+        {/* Filtros por Categoría Renderiza Filters, pasándole la lista de categorías, cuál está activa, y la función a llamar cuando se selecciona una nueva. */}
         <Filters
           categories={categories}
           selectedCategory={selectedCategory}
