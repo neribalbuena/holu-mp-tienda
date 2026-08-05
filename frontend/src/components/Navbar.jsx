@@ -9,16 +9,16 @@ export const Navbar = ({
 }) => {
   return (
     <header className="navbar">
-      {/* 1. Logo o Nombre de la Tienda */}
+      {/* 1. logo */}
       <div className="navbar-logo">
-        <h2>🛒 Mi Tienda</h2>
+        <h2>🛒 Holu 📍🇦🇷</h2>
       </div>
 
       {/* 2. Barra de Búsqueda */}
       <div className="navbar-search">
         <input
           type="text"
-          placeholder="🔍 Buscar productos por nombre..."
+          placeholder="🔍 Buscá algún productos por nombre... xd"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
