@@ -1,6 +1,7 @@
 import { useState } from 'react';
+//Función que se comunica con mi backend para pedir el link de pago 
 import { crearPreferenciaMercadoPago } from '../services/api';
-
+//recibe props desde app.jsx ⬇️
 export const CartDrawer = ({
   isOpen,
   onClose,
@@ -17,10 +18,11 @@ export const CartDrawer = ({
   // Función para procesar la compra con Mercado Pago
   const handleCheckout = async () => {
     if (cart.length === 0) return;
-    
+    //activa el estado de carga
     setLoading(true);
-    // 1. Preparamos el formato que pide el backend
+    // 1. Preparo el formato que pide el backend
     const itemsParaMP = cart.map((item) => ({
+      //transforma el array del carrito en este formato
       title: item.title,
       unit_price: item.price,
       quantity: item.cantidad
@@ -38,7 +40,7 @@ export const CartDrawer = ({
 
   return (
     <div className="drawer-overlay">
-      <div className="drawer-content">
+      <div className="drawer-content"> 
         <div className="drawer-header">
           <h3>🛒 Tu Carrito</h3>
           <button className="drawer-close-btn" onClick={onClose}>✕</button>
@@ -46,7 +48,7 @@ export const CartDrawer = ({
 
         <div className="drawer-body">
           {cart.length === 0 ? (
-            <p className="cart-empty-text">El carrito está vacío 😔</p>
+            <p className="cart-empty-text">El carrito está vacío, comprá algo dale</p>
           ) : (
             cart.map((item) => (
               <div key={item.id} className="cart-item">
