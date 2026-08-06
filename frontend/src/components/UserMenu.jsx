@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 export const UserMenu = ({ onOpenAuth }) => {
+  //extraer user o null
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Cartelito amigable para las opciones de decoración
+  // Cartelito para las opciones de decoración
   const handleDummyClick = (opcion) => {
     alert(`La sección "${opcion}" está en mantenimiento.`);
     setIsOpen(false);
