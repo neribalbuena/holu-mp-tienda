@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-
+//recibe si el modal está abierto y una función para cerrarlo 
 export const AuthModal = ({ isOpen, onClose }) => {
+  //extraer login del contexto 
   const { login } = useAuth();
+  //crea estos estados para el formulario 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
@@ -10,6 +12,7 @@ export const AuthModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
+    //evita recargar la pagina al enviar form
     e.preventDefault();
     if (!name || !email) {
       alert('Por favor, completá tu nombre y email.');
@@ -24,6 +27,7 @@ export const AuthModal = ({ isOpen, onClose }) => {
   };
 
   return (
+    //solo visual, el fondo oscuro y la caja blanca del modal, con el btn de cerrar y el título 
     <div className="modal-overlay">
       <div className="modal-content">
         <button className="modal-close-btn" onClick={onClose}>✕</button>
