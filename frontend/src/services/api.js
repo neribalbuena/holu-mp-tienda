@@ -1,6 +1,7 @@
 //Declara una función asíncrona que recibe el array de ítems del carrito
 export const crearPreferenciaMercadoPago = async (cartItems) => {
   try {
+    //fetch es la api nativa del navegador para hacer peticiones HTTP
     const response = await fetch('https://holu-mp-tienda-1.onrender.com/create_preference', {
       //se están enviando datos P0ST
       method: 'POST',
