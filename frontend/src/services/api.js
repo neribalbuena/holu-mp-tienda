@@ -1,15 +1,19 @@
+//Declara una función asíncrona que recibe el array de ítems del carrito
 export const crearPreferenciaMercadoPago = async (cartItems) => {
   try {
     const response = await fetch('https://holu-mp-tienda-1.onrender.com/create_preference', {
+      //se están enviando datos P0ST
       method: 'POST',
       headers: {
+        //le avisa al servidor q la petición viene en formato JSON
         'Content-Type': 'application/json',
       },
+      //debe ser string json el cuerpo d una petición http
       body: JSON.stringify({ items: cartItems }),
     });
-
+ //convierto a js usable
     const data = await response.json();
-
+//si la respuesta trae el link de pago lo devuelve 
     if (data.init_point) {
       return data.init_point;
     } else {
